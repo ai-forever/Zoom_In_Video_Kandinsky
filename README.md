@@ -10,6 +10,7 @@ Framework for creating Zoom in / Zoom out video based on inpainting Kandinsky
 - [Basic Usage](#basic-usage)
 - [Examples](#examples)
 - [Additional functionality](#additional-functionality)
+- [More examples](#more-examples)
 
 ## Installation
 ```bash
@@ -119,6 +120,7 @@ The result video .avi format can be found here `wide_video.video`
 
 ## Additional functionality
 * Set parameter `mode` as `"Out"` or `"In"` when `self.run(mode=mode)` to chose either you want a Zoom In or a Zoom Out video. By default it is set to `"In"`
+* You may use an initial image from local by passing `sel.run(init_image=image)`. By default it is set to `None`
 * You may check generated key frames with `self.show_key_frames()` function
 * In case you don't like some key frames you may repeat their generations with function
   
@@ -131,3 +133,108 @@ or even set different prompts and then repeat generations
 `self.repeat_frame_generation_starting_from_N(N=frame_number)`
 
 but then finish the whole pipeline from `self.run()` until `self.gather_frames_into_video()`
+
+
+
+## More examples
+```python
+prompts = [
+    "Room in a fantasy elven city, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Room in a fantasy elven city, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "fantasy elven city, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "fantasy elven city, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "fantasy elven forest, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "fantasy elven forest, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Neon forest, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Neon forest, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Neon cyberpunk city, beautiful scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Neon cyberpunk city, beautiful scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Neon cosmic flowers, beautiful scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Neon cosmic flowers, beautiful scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Neon cosmic flowers, beautiful scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Space, stars, neon nebula, breathtaking scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Space, stars, neon nebula, breathtaking scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Space, stars, neon nebula, breathtaking scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Space, stars, neon nebula, breathtaking scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Space, stars, neon nebula, breathtaking scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+    "Space, stars, neon nebula, breathtaking scenery, vivid colours, bright light, photorealistic painting, sharp focus, 8k, perfect composition, trending on artstation, award-winning photograph, unreal engine 5, cinematic smooth, intricate detail, studio photo, highly detailed",
+]
+
+project_name = "example1"
+wide_video = WideFrameZoomInVideo(project_name=project_name,
+                                  prior=prior,
+                                  decoder=decoder,
+                                  N=50
+                                 )
+wide_video.set_prompts(prompts)
+wide_video.run(create_gif=True, mode="In")
+wide_video.play()
+```
+https://github.com/northmen/Zoom_In_Video_Kandinsky/assets/32247757/ac312a39-410e-4975-b666-613ffad453e3
+
+```python
+prompts = [
+    'Sculpture of David in a pose of the Vitruvian Man in the style of Michelangelo',
+    'Sculpture of David in a pose of the Vitruvian Man in the style of Michelangelo',
+    'Sculpture of David in a pose of the Vitruvian Man in the style of Michelangelo',
+    'Sculpture of David in a pose of the Vitruvian Man in the style of Michelangelo',
+    'Sculpture of David in a pose of the Vitruvian Man in the style of Michelangelo',
+    'Drawing of the Vitruvian Man in the style of Da Vinci',
+    'Drawing of the Vitruvian Man in the style of Da Vinci',
+    'Drawing of the Vitruvian Man in the style of Da Vinci',
+    'Drawing of the Vitruvian Man in the style of Da Vinci',
+    'Drawing of the Vitruvian Man in the style of Da Vinci',
+    'Painting The Birth of Venus in the style of Botticelli',
+    'Painting The Birth of Venus in the style of Botticelli',
+    'Painting The Birth of Venus in the style of Botticelli',
+    'Painting The Birth of Venus in the style of Botticelli',
+    'Painting The Birth of Venus in the style of Botticelli',
+    'Furious Ocean in the style of Katsushika Hokusai',
+    'Furious Ocean in the style of Katsushika Hokusai',
+    'Furious Ocean in the style of Katsushika Hokusai',
+    'Furious Ocean in the style of Katsushika Hokusai',
+    'Furious Ocean in the style of Katsushika Hokusai',
+    'Furious ocean in the style of Van Gogh',
+    'Furious ocean in the style of Van Gogh',
+    'Furious ocean in the style of Van Gogh',
+    'Furious ocean in the style of Van Gogh',
+    'Furious ocean in the style of Van Gogh',
+    'Morning in a pine forest in the city of Shishkin',
+    'Morning in a pine forest in the city of Shishkin',
+    'Morning in a pine forest in the city of Shishkin',
+    'Morning in a pine forest in the city of Shishkin',
+    'Morning in a pine forest in the city of Shishkin'
+]
+
+project_name = "example2"
+wide_video = WideFrameZoomInVideo(project_name=project_name,
+                                  prior=prior,
+                                  decoder=decoder
+                                 )
+wide_video.set_prompts(prompts)
+wide_video.run(create_gif=True, mode="In")
+wide_video.play()
+```
+https://github.com/northmen/Zoom_In_Video_Kandinsky/assets/32247757/5400e32e-3c38-4f61-bfde-0a93ac93043d
+
+```python
+prompts = [
+    "black dog wearing sunglasses",
+    "graffiti of a black dog on a blue wall",
+    "graffiti on a blue wall",
+    "graffiti on a wall",
+    "a house with graffiti",
+    "a house with graffiti",
+    "a house in the forest"
+]
+project_name = "example3"
+video = ZoomInVideo(project_name,
+                    prior=prior,
+                    decoder=decoder,
+                    N=50
+                   )
+video.set_prompts(prompts)
+video.run(create_gif=True, mode="Out")
+video.play()
+```
+https://github.com/northmen/Zoom_In_Video_Kandinsky/assets/32247757/11cb462d-86cf-49ef-8983-7c108046bcda
