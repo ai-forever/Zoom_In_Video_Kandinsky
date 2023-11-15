@@ -199,17 +199,17 @@ def correct_initial_image(image, outpainted_cutted_image):
 def generate_image(prompt, prior, decoder):
     """
     generating square image by a given prompt
-    """ 
+    """
     img = Image.new("L", standart_shape, 0)
     mask = np.ones(standart_shape)
     picture = inpaint(prompt,
-                        img,
-                        mask,
-                        prior,
-                        decoder,
-                        height=size,
-                        width=size,
-                        negative_prior_prompt=None
+                      img,
+                      mask,
+                      prior,
+                      decoder,
+                      height=size,
+                      width=size,
+                      negative_prior_prompt=None
                     )
     return picture
 
@@ -236,30 +236,27 @@ def combine_frames_into_video(path, output):
     print("DONE")
     
 
-### Wide Frame:
 def get_mask(img):
     """
     get mask of an image for inpainting
-    all black pixels will be detected as empty space
+    all black pixels with its surrounding will be detected as empty space
     returns mask
     """
-    border = 10
-    old_size = (size - border, size - border)
-    img = img.resize(old_size)
-    new_im = Image.new("RGB", standart_shape)
-    box = tuple((n - o) // 2 for n, o in zip(standart_shape, old_size))
-    new_im.paste(img, box)
-    img = new_im.copy()
+    blur_strength = 1
     M = np.asarray(img.convert('L'))
     M = M.copy()
-    # M[M>0] = 1
     M[M>0] = -1
     M += 1
-    mask = M.copy()
-    return mask
+    init_mask = M.copy() * 255
+    img = Image.fromarray(init_mask, 'L')
+    img = img.filter(ImageFilter.GaussianBlur(blur_strength))
+    M = np.asarray(img.convert('L'))
+    M = M.copy()
+    M[M>0] = 255
+    return M
 
 
-def inpaint(prompt, init_image, mask, prior, decoder, negative_prior_prompt=None, height=512, width=512, strength=0.9):
+def inpaint(prompt, init_image, mask, prior, decoder, negative_prior_prompt=None, height=512, width=512, strength=1):
     """
     Inpaints picture with a given mask and prompt
     """

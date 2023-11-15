@@ -210,6 +210,8 @@ class ZoomInVideo():
         VALID_MODES = {"In", "Out"}
         if mode not in VALID_MODES:
             raise ValueError("mode must be one of %r." % VALID_MODES)
+        self.clear_key_frames()
+        self.clear_video_frames_folder()
         if init_image==None:
             self.generate_initial_frame()
         else:
@@ -454,6 +456,8 @@ class WideFrameZoomInVideo():
         VALID_MODES = {"In", "Out"}
         if mode not in VALID_MODES:
             raise ValueError("mode must be one of %r." % VALID_MODES)
+        self.clear_key_frames()
+        self.clear_video_frames_folder()
         if init_image==None:
             self.generate_initial_frame(center_image=center_image)
         else:
